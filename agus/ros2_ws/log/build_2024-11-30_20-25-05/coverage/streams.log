@@ -1,0 +1,43 @@
+[0.906s] Invoking command in '/home/apoire/Documents/Robotica/ros2_ws/src/coverage': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/ros2_ws/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build install --record /home/apoire/Documents/Robotica/ros2_ws/build/coverage/install.log --single-version-externally-managed install_data
+[1.209s] running egg_info
+[1.209s] creating ../../build/coverage/coverage.egg-info
+[1.233s] writing ../../build/coverage/coverage.egg-info/PKG-INFO
+[1.233s] writing dependency_links to ../../build/coverage/coverage.egg-info/dependency_links.txt
+[1.233s] writing entry points to ../../build/coverage/coverage.egg-info/entry_points.txt
+[1.233s] writing requirements to ../../build/coverage/coverage.egg-info/requires.txt
+[1.234s] writing top-level names to ../../build/coverage/coverage.egg-info/top_level.txt
+[1.234s] writing manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.282s] reading manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.282s] adding license file 'LICENSE'
+[1.282s] writing manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.282s] running build
+[1.283s] running build_py
+[1.283s] creating /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build
+[1.283s] creating /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib
+[1.283s] creating /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib/coverage
+[1.283s] copying coverage/__init__.py -> /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib/coverage
+[1.283s] copying coverage/coverage_server.py -> /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib/coverage
+[1.283s] running install
+[1.290s] running install_lib
+[1.314s] creating /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage
+[1.315s] copying /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib/coverage/__init__.py -> /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage
+[1.315s] copying /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build/lib/coverage/coverage_server.py -> /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage
+[1.315s] byte-compiling /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/__init__.py to __init__.cpython-312.pyc
+[1.315s] byte-compiling /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py to coverage_server.cpython-312.pyc
+[1.316s]   File "/home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py", line 37
+[1.316s]     print("Access to OGRPoints: ", p4->Distance(p5.get()));
+[1.316s]                                      ^^
+[1.316s] SyntaxError: invalid syntax
+[1.317s] 
+[1.317s] running install_data
+[1.317s] creating /home/apoire/Documents/Robotica/ros2_ws/install/coverage/share/ament_index
+[1.317s] creating /home/apoire/Documents/Robotica/ros2_ws/install/coverage/share/ament_index/resource_index
+[1.317s] creating /home/apoire/Documents/Robotica/ros2_ws/install/coverage/share/ament_index/resource_index/packages
+[1.317s] copying resource/coverage -> /home/apoire/Documents/Robotica/ros2_ws/install/coverage/share/ament_index/resource_index/packages
+[1.317s] copying package.xml -> /home/apoire/Documents/Robotica/ros2_ws/install/coverage/share/coverage
+[1.317s] running install_egg_info
+[1.342s] Copying ../../build/coverage/coverage.egg-info to /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info
+[1.343s] running install_scripts
+[1.506s] Installing coverage_server script to /home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/coverage
+[1.506s] writing list of installed files to '/home/apoire/Documents/Robotica/ros2_ws/build/coverage/install.log'
+[1.533s] Invoked command in '/home/apoire/Documents/Robotica/ros2_ws/src/coverage' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/ros2_ws/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/ros2_ws/build/coverage/build install --record /home/apoire/Documents/Robotica/ros2_ws/build/coverage/install.log --single-version-externally-managed install_data

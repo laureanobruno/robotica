@@ -1,0 +1,5 @@
+  File "/home/apoire/Documents/Robotica/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py", line 37
+    print("Access to OGRPoints: ", p4->Distance(p5.get()));
+                                     ^^
+SyntaxError: invalid syntax
+
