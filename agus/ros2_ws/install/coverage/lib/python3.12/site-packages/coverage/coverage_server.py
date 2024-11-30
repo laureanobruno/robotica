@@ -4,12 +4,12 @@ from std_msgs.msg import String
 import fields2cover as f2c
 from osgeo import ogr
 
-class CoverageServer():
+class CoverageServer(Node):
 
     def __init__(self):
-        super().__init__("coverage_server")
+        super().__init__('coverage_server')
         
-    def cover():
+    def cover(self):
         print("####### Tutorial 1.1 Initialize a Point ######")
         # Create a point with x and y
         p1 = f2c.Point(1.2, 3.4)
@@ -130,7 +130,7 @@ class CoverageServer():
         f2c.Visualizer.plot(lines);
         f2c.Visualizer.save("Tutorial_image.png");
 
-def main(args):
+def main(args=None):
     rclpy.init(args=args)
     coverage_server = CoverageServer()
     
