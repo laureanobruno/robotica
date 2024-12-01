@@ -1,0 +1,5 @@
+  File "/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py", line 47
+    f2c::rp::SnakeOrder snake_sorter;
+        ^
+SyntaxError: invalid syntax
+

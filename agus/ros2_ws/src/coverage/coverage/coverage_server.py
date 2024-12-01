@@ -1,13 +1,19 @@
 import rclpy #ROS Client Library for the Python language.
-from rclpy.node import Node 
-from std_msgs.msg import String
-import fields2cover as f2c
-from osgeo import ogr
 import math
+import fields2cover as f2c
+from rclpy.node   import Node 
+from std_msgs.msg import String
+from osgeo        import ogr
+from enum         import Enum
+
+class Coverage_Type(Enum):
+    BOUS = 0
+    SNAKE = 1
 
 class CoverageServer(Node):
     robot = None;
     field = None;
+    coverage_type = Coverage_Type.SNAKE;
 
     def __init__(self):
         super().__init__('coverage_server')
@@ -32,14 +38,34 @@ class CoverageServer(Node):
         bf = f2c.SG_BruteForce();
         swaths = bf.generateSwaths(math.pi, self.robot.getCovWidth(), no_hl.getGeometry(0));
 
-        # Order swaths using the Boustrophedon Order
-        boustrophedon_sorter = f2c.RP_Boustrophedon();
-        swaths = boustrophedon_sorter.genSortedSwaths(swaths);
+        if (self.coverage_type == Coverage_Type.BOUS):
+            # Order swaths using the Boustrophedon Order
+            boustrophedon_sorter = f2c.RP_Boustrophedon();
+            swaths = boustrophedon_sorter.genSortedSwaths(swaths);
+            print("Using Boustrophedon Order");
+        elif (self.coverage_type == Coverage_Type.SNAKE):
+            snake_sorter = f2c.RP_Snake();
+            swaths = snake_sorter.genSortedSwaths(swaths);
+            print("Using Snake Order");
 
+        # Set robot movement constraints
+        self.robot.setMinTurningRadius(3)  # m
+        self.robot.setMaxDiffCurv(0.2);  # 1/m^2
+        path_planner = f2c.PP_PathPlanning()
+
+        # Conection of paths with Dubin Curves
+        # Done with continous survature to avoid instant changes of direction
+
+        dubins_cc = f2c.PP_DubinsCurvesCC();
+        path_dubins_cc = path_planner.planPath(self.robot, swaths, dubins_cc);
+        print("Path: \n");
+        print(path_dubins_cc, "\n");
+
+        # Visualise
         f2c.Visualizer.figure();
         f2c.Visualizer.plot(self.field);
         f2c.Visualizer.plot(no_hl);
-        f2c.Visualizer.plot(swaths);
+        f2c.Visualizer.plot(path_dubins_cc);
         f2c.Visualizer.show();
 
 
