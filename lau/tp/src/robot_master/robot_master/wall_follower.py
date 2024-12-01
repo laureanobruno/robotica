@@ -22,7 +22,8 @@ class WallFollowNode(Node):
         super().__init__("wall_follow_node")
 
         self.state = FORWARD
-        self.i = 0
+        self.lastest_lidar = None
+        self.lastest_odometry = None
 
         self.lidar_subscription = self.create_subscription(
             LaserScan, "/diff_drive/scan", self.lidar_callback, 10
@@ -53,19 +54,22 @@ class WallFollowNode(Node):
         twist = Twist()
 
         # Procesar los datos del lidar
-        wall_distances: WallDistances = self.lidar_sensor.procesar(
-            self.lastest_lidar.ranges
-        )
-        absolute_position: AbsolutePosition = self.odometry_sensor.procesar(
-            self.lastest_odometry
-        )
+        if self.lastest_lidar is not None:
+            wall_distances: WallDistances = self.lidar_sensor.procesar(
+                self.lastest_lidar
+            )
+        if self.lastest_odometry is not None:
+            absolute_position: AbsolutePosition = self.odometry_sensor.procesar(
+                self.lastest_odometry
+            )
+            print(absolute_position.__rotation__())
 
-        if self.state == FORWARD:
-            twist.linear.x = self.linear_speed
-            if wall_distances.closest_wall == FRONT:
-                self.state = TURNING
-        elif self.state == TURNING:
-            twist.angular.z = self.angular_speed
+        # if self.state == FORWARD:
+        #     twist.linear.x = self.linear_speed
+        #     if wall_distances.closest_wall == FRONT:
+        #         self.state = TURNING
+        # elif self.state == TURNING:
+        #     twist.angular.z = self.angular_speed
 
 
 def main(args=None):

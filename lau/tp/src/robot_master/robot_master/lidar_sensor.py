@@ -1,3 +1,6 @@
+from sensor_msgs.msg import LaserScan
+
+
 class WallDistances:
 
     global dictionary
@@ -51,20 +54,20 @@ class LidarSensor:
         self.index_start_center = calcular_indice(center_range[0])
         self.index_end_center = calcular_indice(center_range[1])
 
-    def procesar(self, ranges):
+    def procesar(self, msg: LaserScan):
         front_ranges = [
             r
-            for r in ranges[self.index_start_center : self.index_end_center]
+            for r in msg.ranges[self.index_start_center : self.index_end_center]
             if r < float("inf")
         ]
         left_ranges = [
             r
-            for r in ranges[self.index_start_left : self.index_end_left]
+            for r in msg.ranges[self.index_start_left : self.index_end_left]
             if r < float("inf")
         ]
         right_ranges = [
             r
-            for r in ranges[self.index_start_right : self.index_end_right]
+            for r in msg.ranges[self.index_start_right : self.index_end_right]
             if r < float("inf")
         ]
 
