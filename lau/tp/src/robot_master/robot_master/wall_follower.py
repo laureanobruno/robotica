@@ -4,6 +4,7 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from .lidar_sensor import LidarSensor, WallDistances, LEFT, RIGHT, FRONT, NONE
+from .odometry_sensor import OdometrySensor, AbsolutePosition
 
 
 class WallFollowNode(Node):
@@ -38,6 +39,7 @@ class WallFollowNode(Node):
         self.angular_speed = 0.5  # Velocidad angular (rad/s)
 
         self.lidar_sensor = LidarSensor()  # Objeto para procesar los datos del lidar
+        self.odometry_sensor = OdometrySensor()  # Procesa los datos del odometry
 
         self.timer = self.create_timer(0.1, self.MEF)
 
@@ -53,6 +55,9 @@ class WallFollowNode(Node):
         # Procesar los datos del lidar
         wall_distances: WallDistances = self.lidar_sensor.procesar(
             self.lastest_lidar.ranges
+        )
+        absolute_position: AbsolutePosition = self.odometry_sensor.procesar(
+            self.lastest_odometry
         )
 
         if self.state == FORWARD:
