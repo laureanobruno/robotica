@@ -11,6 +11,7 @@ class WallDistances:
         self.left = left
         self.right = right
         self.closest_wall = closest_wall
+        self.closest = min(front, left, right)
 
     def __repr__(self):
         return (
@@ -32,27 +33,40 @@ class LidarSensor:
     FRONT = 2
     NONE = -1
 
-    def __init__(self):
-        self.wall_threshold = 2
+    def __init__(
+        self,
+        samples,
+        wall_threshold,
+        min_angle,
+        max_angle,
+        left_range,
+        center_range,
+        right_range,
+    ):
+        self.samples = samples
+        self.wall_threshold = wall_threshold
+        self.min_angle = min_angle
+        self.max_angle = max_angle
+        self.left_range = left_range
+        self.right_range = right_range
+        self.center_range = center_range
         self.definirRangos()
 
     def definirRangos(self):
-        angle_min = 0  # en grados
-        angle_max = 180  # en grados
 
         def calcular_indice(angulo):
-            return int((angulo - angle_min) / (angle_max - angle_min) * (samples - 1))
+            return int(
+                (angulo - self.min_angle)
+                / (self.max_angle - self.min_angle)
+                * (self.samples - 1)
+            )
 
-        right_range = (0, 30)
-        center_range = (60, 120)
-        left_range = (150, 180)
-
-        self.index_start_left = calcular_indice(left_range[0])
-        self.index_end_left = calcular_indice(left_range[1])
-        self.index_start_right = calcular_indice(right_range[0])
-        self.index_end_right = calcular_indice(right_range[1])
-        self.index_start_center = calcular_indice(center_range[0])
-        self.index_end_center = calcular_indice(center_range[1])
+        self.index_start_left = calcular_indice(self.left_range[0])
+        self.index_end_left = calcular_indice(self.left_range[1])
+        self.index_start_right = calcular_indice(self.right_range[0])
+        self.index_end_right = calcular_indice(self.right_range[1])
+        self.index_start_center = calcular_indice(self.center_range[0])
+        self.index_end_center = calcular_indice(self.center_range[1])
 
     def procesar(self, msg: LaserScan):
         front_ranges = [

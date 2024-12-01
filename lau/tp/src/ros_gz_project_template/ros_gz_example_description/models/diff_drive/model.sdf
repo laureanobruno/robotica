@@ -169,7 +169,6 @@
           <lidar>
             <scan>
               <horizontal>
-                <!-- <samples>720</samples> -->
                 <samples>640</samples>
                 <resolution>1</resolution>
                 <min_angle>-1.57</min_angle>
@@ -192,9 +191,68 @@
         </sensor>
       </link>
 
+      <link name="rlidar_link">
+        <pose>0 0 0.5 0 0 0</pose>
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>0.000166667</ixx>
+            <iyy>0.000166667</iyy>
+            <izz>0.000166667</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+        <sensor name='lidar_derecha' type='gpu_lidar'>
+          <pose>0 0 0 0 0 0</pose>
+          <topic>rscan</topic>
+           <gz_frame_id>diff_drive/lidar_link</gz_frame_id>
+          <update_rate>10</update_rate>
+          <lidar>
+            <scan>
+              <horizontal>
+                <samples>640</samples>
+                <resolution>1</resolution>
+                <min_angle>3.92699</min_angle>
+                <max_angle>5.49779</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0.0</min_angle>
+                <max_angle>0.0</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.08</min>
+              <max>10.0</max>
+              <resolution>0.01</resolution>
+            </range>
+          </lidar>
+          <visualize>true</visualize>
+        </sensor>
+      </link>
+
       <joint name='lidar_joint' type='fixed'>
         <parent>chassis</parent>
         <child>lidar_link</child>
+      </joint>
+
+      <joint name='rlidar_joint' type='fixed'>
+        <parent>chassis</parent>
+        <child>rlidar_link</child>
       </joint>
 
       <joint name='left_wheel_joint' type='revolute'>
