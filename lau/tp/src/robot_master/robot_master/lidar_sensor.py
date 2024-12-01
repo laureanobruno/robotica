@@ -68,6 +68,12 @@ class LidarSensor:
         self.index_start_center = calcular_indice(self.center_range[0])
         self.index_end_center = calcular_indice(self.center_range[1])
 
+        # print(
+        #     f"Left: {self.index_start_left}-{self.index_end_left}, "
+        #     f"Right: {self.index_start_right}-{self.index_end_right}, "
+        #     f"Center: {self.index_start_center}-{self.index_end_center}"
+        # )
+
     def procesar(self, msg: LaserScan):
         front_ranges = [
             r
