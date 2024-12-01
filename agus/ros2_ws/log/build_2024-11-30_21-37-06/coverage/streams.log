@@ -1,0 +1,25 @@
+[0.905s] Invoking command in '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/src/coverage': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/install.log --single-version-externally-managed install_data
+[1.217s] running egg_info
+[1.240s] writing ../../build/coverage/coverage.egg-info/PKG-INFO
+[1.241s] writing dependency_links to ../../build/coverage/coverage.egg-info/dependency_links.txt
+[1.241s] writing entry points to ../../build/coverage/coverage.egg-info/entry_points.txt
+[1.241s] writing requirements to ../../build/coverage/coverage.egg-info/requires.txt
+[1.241s] writing top-level names to ../../build/coverage/coverage.egg-info/top_level.txt
+[1.290s] reading manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.290s] adding license file 'LICENSE'
+[1.291s] writing manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.291s] running build
+[1.291s] running build_py
+[1.291s] copying coverage/coverage_server.py -> /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/build/lib/coverage
+[1.291s] running install
+[1.298s] running install_lib
+[1.323s] copying /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/build/lib/coverage/coverage_server.py -> /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage
+[1.323s] byte-compiling /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py to coverage_server.cpython-312.pyc
+[1.324s] running install_data
+[1.324s] running install_egg_info
+[1.350s] removing '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info' (and everything under it)
+[1.350s] Copying ../../build/coverage/coverage.egg-info to /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info
+[1.351s] running install_scripts
+[1.513s] Installing coverage_server script to /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/coverage
+[1.513s] writing list of installed files to '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/install.log'
+[1.539s] Invoked command in '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/src/coverage' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/agus/ros2_ws/build/coverage/install.log --single-version-externally-managed install_data

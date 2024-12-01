@@ -3,132 +3,45 @@ from rclpy.node import Node
 from std_msgs.msg import String
 import fields2cover as f2c
 from osgeo import ogr
+import math
 
 class CoverageServer(Node):
+    robot = None;
+    field = None;
 
     def __init__(self):
         super().__init__('coverage_server')
+
+        # Generate random field
+        rand = f2c.Random(42);
+        self.field = rand.generateRandField(1e4, 5);
+
+        # Generate robot
+        self.robot = f2c.Robot(2.0, 5.0);
         
     def cover(self):
-        print("####### Tutorial 1.1 Initialize a Point ######")
-        # Create a point with x and y
-        p1 = f2c.Point(1.2, 3.4)
-        print("Point 1: ", p1)
+        # Generate cells add headland and calculate area
+        cells = self.field.getField();
 
-        # Create a point with x, y and z
-        p2 = f2c.Point(9.8, 7.6, 5.4);
-        print("Point 2: ", p2);
+        const_hl = f2c.HG_Const_gen();
+        no_hl = const_hl.generateHeadlands(cells, 3.0 * self.robot.getWidth());
+        print("The complete area is ", cells.area(),
+            ", and the area without headlands is ", no_hl.area());
 
-        # Create a point using a OGRPoint
-        from osgeo import ogr
-        ogrpoint = ogr.Geometry(ogr.wkbPoint)
-        ogrpoint.AddPoint(11, 22)
-        p3 = f2c.Point()
-        p3.importFromWkt(ogrpoint.ExportToWkt())
-        print("Point 3: ", p3)
+        # Generate swaths by vrute force
+        bf = f2c.SG_BruteForce();
+        swaths = bf.generateSwaths(math.pi, self.robot.getCovWidth(), no_hl.getGeometry(0));
 
-
-        # Create an empty point and set its components
-        p4 = f2c.Point()
-        p4.setX(3.0)
-        p4.setZ(-1.0)
-        print("Point 4: ", p4,
-                ". Its components are: {x: ", p4.getX(),
-                ", y: ", p4.getY(),
-                ", z: ", p4.getZ(), "}")
-
-        # Create an empty point and import its components
-        p5 = f2c.Point()
-        p5.importFromWkt("POINT (0 4 4)")
-        print("Point 5: ", p5)
-
-
-        print("\n\n####### Tutorial 1.2 Basic types are shared pointers ######")
-        # Difference between cloning and copying a point
-        old_p = f2c.Point(1, 2)
-        cloned_p = old_p.clone()
-        print("The old point is ", old_p)
-        cloned_p *= 5.0
-        print("Old point is: ", old_p, " and cloned point is: ", cloned_p)
-
-        copy_p = old_p
-        copy_p *= 5.5
-        print("Old point is: ", old_p, " and copied point is: ", copy_p)
-
-        print("\n\n####### Tutorial 1.3 Initialize a LineString ######")
-
-        line1 = f2c.LineString()
-        line1.addPoint(3,0)
-        line1.addPoint(p5)
-        print("Length of line 1: ", line1.length())
-
-        line2 = f2c.LineString();
-        [line2.addPoint(p) for p in [f2c.Point(1, 0), f2c.Point(1, 1), f2c.Point(0, 1)]];
-        print("Length of line 2: ", line2.length());
-
-
-        print("\n\n####### Tutorial 1.4 Initialize a LinearRing ######")
-
-        ring = f2c.LinearRing();
-        [ring.addPoint(p) for p in [f2c.Point(1,1), f2c.Point(1,2), f2c.Point(2,2), f2c.Point(1,1)]];
-        print("Area of the ring: ", ring.area())
-
-        print("\n\n####### Tutorial 1.5 Initializing other collections ######")
-        lines = f2c.MultiLineString();
-        lines.addGeometry(line1);
-        lines.addGeometry(line2);
-        print("Lines have length: ", end="")
-        for i in range(lines.size()):
-            print(lines.getGeometry(i).length(), end = ", ")
-        print("\n")
-
-        outter_ring = f2c.LinearRing();
-        [outter_ring.addGeometry(p) for p in [  \
-            f2c.Point(0, 0), f2c.Point(2, 0), f2c.Point(2, 2), f2c.Point(0, 2), f2c.Point(0, 0)]];
-        inner_ring = f2c.LinearRing();
-        [inner_ring.addGeometry(p) for p in [  \
-            f2c.Point(0.5, 0.5), f2c.Point(1.5, 0.5), f2c.Point(1.5, 1.5),  \
-            f2c.Point(0.5, 1.5), f2c.Point(0.5, 0.5)]];
-        cell = f2c.Cell();
-        cell.addRing(outter_ring);
-        cell.addRing(inner_ring);
-        print("The area of the cell is: ", cell.area(), "\n");
-
-        cells = f2c.Cells();
-        cells.addGeometry(cell);
-        print("The area of the cells is: ", cells.area(), "\n\n")
-
-        points = f2c.MultiPoint();
-        [points.addGeometry(p) for p in [f2c.Point(1, 2), f2c.Point(3, 4)]];
-
-        print("Points contains ", points.size(), " points.");
-        points.addPoint(5, 6);
-        print("Points contains ", points.size(), " points.");
-        points.addPoint(p5);
-        print("Points contains ", points.size(), " points.");
-
-
-        print("\n\n####### Tutorial 1.6 Accessing elements in collections ######")
-
-        p_0 = points.getGeometry(0);
-        print("First point in points: ", p_0, "\n")
-
-        p_0 *= 1e5;
-        print("Modified p_0: ", p_0);
-        print("First point in points without modification: ", points.getGeometry(0));
-        points.setGeometry(0, p_0);
-        print("Modified first point in points: ", points.getGeometry(0));
-
-
-        print("\n\n####### Tutorial 1.9 Visualizing Fields2Cover data ######")
+        # Order swaths using the Boustrophedon Order
+        boustrophedon_sorter = f2c.RP_Boustrophedon();
+        swaths = boustrophedon_sorter.genSortedSwaths(swaths);
 
         f2c.Visualizer.figure();
-        f2c.Visualizer.plot(lines);
+        f2c.Visualizer.plot(self.field);
+        f2c.Visualizer.plot(no_hl);
+        f2c.Visualizer.plot(swaths);
         f2c.Visualizer.show();
 
-        f2c.Visualizer.figure();
-        f2c.Visualizer.plot(lines);
-        f2c.Visualizer.save("Tutorial_image.png");
 
 def main(args=None):
     rclpy.init(args=args)

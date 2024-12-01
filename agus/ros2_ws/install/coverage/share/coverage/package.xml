@@ -16,6 +16,7 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>fields2cover</exec_depend>
   <exec_depend>osgeo</exec_depend>
+  <exec_depend>math</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>
