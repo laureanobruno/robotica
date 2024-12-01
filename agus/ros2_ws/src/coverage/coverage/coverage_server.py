@@ -1,10 +1,11 @@
 import rclpy #ROS Client Library for the Python language.
 import math
 import fields2cover as f2c
-from rclpy.node   import Node 
-from std_msgs.msg import String
-from osgeo        import ogr
-from enum         import Enum
+from rclpy.node        import Node 
+from std_msgs.msg      import String
+from osgeo             import ogr
+from enum              import Enum
+from geometry_msgs.msg import Twist
 
 class Coverage_Type(Enum):
     BOUS = 0
@@ -24,6 +25,9 @@ class CoverageServer(Node):
 
         # Generate robot
         self.robot = f2c.Robot(2.0, 5.0);
+
+        # Publisher de velocidad
+        self.cmd_vel_publisher = self.create_publisher(Twist, "/diff_drive/cmd_vel", 10)
         
     def cover(self):
         # Generate cells add headland and calculate area
@@ -58,8 +62,8 @@ class CoverageServer(Node):
 
         dubins_cc = f2c.PP_DubinsCurvesCC();
         path_dubins_cc = path_planner.planPath(self.robot, swaths, dubins_cc);
-        print("Path: \n");
-        print(path_dubins_cc, "\n");
+
+        print(path_dubins_cc, "\n")
 
         # Visualise
         f2c.Visualizer.figure();
