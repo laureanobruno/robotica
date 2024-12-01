@@ -2,66 +2,65 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+from .lidar_sensor import LidarSensor, WallDistances, LEFT, RIGHT, FRONT, NONE
 
 
 class WallFollowNode(Node):
+
+    global FORWARD
+    global TURNING
+    global TURNED
+    global SEARCHING
+    FORWARD = 0
+    TURNING = 1
+    TURNED = 2
+    SEARCHING = 3
+
     def __init__(self):
         super().__init__("wall_follow_node")
+
+        self.state = FORWARD
+        self.i = 0
+
         self.lidar_subscription = self.create_subscription(
             LaserScan, "/diff_drive/scan", self.lidar_callback, 10
-        )
-        self.cmd_vel_publisher = self.create_publisher(Twist, "/diff_drive/cmd_vel", 10)
-        self.min_distance_to_wall = 0.1  # Distancia deseada a la pared (en metros)
-        self.linear_speed = 0.2  # Velocidad lineal (m/s)
+        )  # Suscripción al tópico del sensor lidar
+        self.odometry_subscription = self.create_subscription(
+            Odometry, "/diff_drive/odometry", self.odometry_callback, 10
+        )  # Suscripción al tópico del sensor odometry
+        self.cmd_vel_publisher = self.create_publisher(
+            Twist, "/diff_drive/cmd_vel", 10
+        )  # Publicación en el tópico de comandos de velocidad
+
+        # Parámetros
+        self.linear_speed = 0.5  # Velocidad lineal (m/s)
         self.angular_speed = 0.5  # Velocidad angular (rad/s)
 
+        self.lidar_sensor = LidarSensor()  # Objeto para procesar los datos del lidar
+
+        self.timer = self.create_timer(0.1, self.MEF)
+
+    def odometry_callback(self, msg: Odometry):
+        self.lastest_odometry = msg
+
     def lidar_callback(self, msg: LaserScan):
-        # Dividimos el campo de visión en tres zonas
+        self.lastest_lidar = msg
 
-        # print("\n\n Ranges: ", msg.ranges)
-
-        front_ranges = [
-            r for r in (msg.ranges[0:10] + msg.ranges[-10:]) if r < float("inf")
-        ]
-        left_ranges = [r for r in msg.ranges[80:100] if r < float("inf")]
-        right_ranges = [r for r in msg.ranges[-100:-80] if r < float("inf")]
-
-        # Print for debugging
-        # print("\n\nFront: ", front_ranges)
-        # print("\n\nLeft: ", left_ranges)
-        # print("\n\nRight: ", right_ranges)
-
-        # Calculamos distancias promedio a la pared en cada zona
-        front_distance = min(front_ranges, default=float("inf"))
-        left_distance = min(left_ranges, default=float("inf"))
-        right_distance = min(right_ranges, default=float("inf"))
-
-        print("\n\nFront distance: ", front_distance)
-        print("Left distance: ", left_distance)
-        print("Right distance: ", right_distance)
-
+    def MEF(self):
         twist = Twist()
 
-        # Lógica para seguir la pared
-        if front_distance < self.min_distance_to_wall:
-            # Si hay una pared enfrente, girar a la izquierda
-            twist.linear.x = 0.0
-            twist.angular.z = self.angular_speed
-        elif left_distance > self.min_distance_to_wall:
-            # Si la pared izquierda está lejos, girar a la izquierda
-            twist.linear.x = self.linear_speed
-            twist.angular.z = self.angular_speed
-        elif left_distance < self.min_distance_to_wall:
-            # Si la pared izquierda está cerca, girar a la derecha
-            twist.linear.x = self.linear_speed
-            twist.angular.z = -self.angular_speed
-        else:
-            # Continuar recto
-            twist.linear.x = self.linear_speed
-            twist.angular.z = 0.0
+        # Procesar los datos del lidar
+        wall_distances: WallDistances = self.lidar_sensor.procesar(
+            self.lastest_lidar.ranges
+        )
 
-        # Publicar el comando de velocidad
-        # self.cmd_vel_publisher.publish(twist)
+        if self.state == FORWARD:
+            twist.linear.x = self.linear_speed
+            if wall_distances.closest_wall == FRONT:
+                self.state = TURNING
+        elif self.state == TURNING:
+            twist.angular.z = self.angular_speed
 
 
 def main(args=None):
