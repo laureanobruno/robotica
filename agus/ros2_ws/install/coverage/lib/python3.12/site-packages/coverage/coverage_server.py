@@ -70,6 +70,8 @@ class CoverageServer(Node):
         self.odometry_listener = self.create_subscription(navmsg.Odometry, "/diff_drive/odometry", self.odometry_callback, 10)
         self.latest_pose = None
         self.odometry_sensor = OdometrySensor();
+        self.goal = gmsg.Vector3(x=3.0, y=5.0, z= 0.0);
+        self.stop = 0;
 
 
         # Publisher de Twist
@@ -79,7 +81,7 @@ class CoverageServer(Node):
         self.latest_pose = msg.pose.pose;
         self.absolute_position = self.odometry_sensor.procesar(msg);
         #print("Received pose ", self.latest_pose)
-        self.drive_to_pose(self.curr_path_pose, self.path[self.curr_path]);
+        self.drive_to_pose(self.goal);
 
     def generate_path(self):
         # Generate cells, add headland and calculate area
@@ -137,7 +139,10 @@ class CoverageServer(Node):
         # Pose
         return pose
     
-    def drive_to_pose(self, pose: gmsg.Pose, path: f2c.PathState):
+    def drive_to_pose(self, goal: gmsg.Vector3):
+        if (self.stop == 1):
+            return
+
         # Check if already there
         twist = gmsg.Twist();
         twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
@@ -147,23 +152,31 @@ class CoverageServer(Node):
         # Convertir quaternion a ángulos de Euler
         curr_angle = self.absolute_position.yaw;
         print("Curr angle: ", curr_angle)
-        print("Angle: ", path.angle)
 
         # Distance to point and angle
-        linear_dist = dist(self.latest_pose.position, pose.position);
-        angular_dist = angular_difference_radians(m(self.latest_pose.position, pose.position), curr_angle);
+        linear_dist = dist(self.latest_pose.position, goal);
+        angle_point = m(self.latest_pose.position, goal)
+        angular_dist = angular_difference_radians(curr_angle, angle_point);
+        print("M:", angle_point)
         print("Distances: ", linear_dist, " | ", angular_dist)
 
         # Check if already there
         if (linear_dist < 0.3):
+            print("Llegue!!! :D")
             self.cmd_vel_publisher.publish(twist);
-            self.curr_path += 1;
-            self.curr_path_pose = self.path[self.curr_path];
-            print("Now going to: ", self.curr_path_pose)
+            if (goal.x == -4):
+                self.stop = 1;
+            else:
+                goal.x = -4
+                goal.y = -6
+            return
         
         # Rotate to angle
         if (abs(angular_dist) > 0.001):
-            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist); #*abs(math.sin(angular_dist + math.pi))
+            if (abs(angular_dist) > math.pi/6):
+                twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
+            else:
+                twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
             print("Z: ", twist.angular.z)
         twist.linear.x = self.robot_lspeed;
 
@@ -174,7 +187,7 @@ def main(args=None):
     rclpy.init(args=args)
     coverage_server = CoverageServer()
     
-    coverage_server.generate_path();
+    #coverage_server.generate_path();
     
     rclpy.spin(coverage_server)
     coverage_server.destroy_node()
