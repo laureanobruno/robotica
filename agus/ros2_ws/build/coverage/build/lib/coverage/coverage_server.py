@@ -53,10 +53,11 @@ class Movement_Type(Enum):
     POINT = 0
     ROT = 1
     POSE = 2
+    ROT_M = 3
 
 class CoverageServer(Node):
     path = f2c.Path;
-    coverage_type = Coverage_Type.SNAKE;
+    coverage_type = Coverage_Type.BOUS;
     latest_pose: gmsg.Pose;
     curr_path = 0;
     curr_path_pose: gmsg.Pose;
@@ -67,21 +68,31 @@ class CoverageServer(Node):
         super().__init__('coverage_server')
 
         # Generate random field
-        rand = f2c.Random(42);
-        self.field = rand.generateRandField(1e4, 5);
+        self.field = f2c.Field(f2c.Cells(f2c.Cell(f2c.LinearRing(f2c.VectorPoint([
+            f2c.Point(-10, 0),
+            f2c.Point(-10, 10),
+            f2c.Point(-20, 10),
+            f2c.Point(-20, 20),
+            f2c.Point(10, 20),
+            f2c.Point(10, 10),
+            f2c.Point(0, 10),
+            f2c.Point(0, 0),
+            f2c.Point(-10, 0)
+        ])))));
 
         # Generate robot
-        self.robot = f2c.Robot(2.0, 5.0);
-        self.robot_lspeed = 1.0; #m/s
+        self.robot = f2c.Robot(1.0, 1.0);
+        self.robot_lspeed = 1.5; #m/s
         self.robot_aspeed = 0.3; #rad/s
 
         # Listener de pose
         self.odometry_listener = self.create_subscription(navmsg.Odometry, "/diff_drive/odometry", self.odometry_callback, 10)
         self.odometry_sensor = OdometrySensor();
-        self.mov_type = Movement_Type.POINT;
+        self.mov_type = Movement_Type.ROT_M;
 
         # Publisher de Twist
         self.cmd_vel_publisher = self.create_publisher(gmsg.Twist, "/diff_drive/cmd_vel", 10);
+                
 
     def odometry_callback(self, msg: navmsg.Odometry):
         self.latest_pose = msg.pose.pose;
@@ -94,6 +105,8 @@ class CoverageServer(Node):
             self.drive_to_rot(self.curr_path_pose, self.path[self.curr_path]);
         elif (self.mov_type == Movement_Type.POSE):
             self.drive_to_pose(self.curr_path_pose, self.path[self.curr_path]);
+        elif ((self.mov_type == Movement_Type.ROT_M)):
+            self.drive_to_rot_m(self.curr_path_pose, self.path[self.curr_path])
         else:
             print("ERROR: mov_type not defined");
 
@@ -102,7 +115,7 @@ class CoverageServer(Node):
         cells = self.field.getField();
 
         const_hl = f2c.HG_Const_gen();
-        no_hl = const_hl.generateHeadlands(cells, 3.0 * self.robot.getWidth());
+        no_hl = const_hl.generateHeadlands(cells, 2.0 * self.robot.getWidth());
         print("The complete area is ", cells.area(),
             ", and the area without headlands is ", no_hl.area());
 
@@ -121,14 +134,14 @@ class CoverageServer(Node):
             print("Using Snake Order");
 
         # Set robot movement constraints
-        self.robot.setMinTurningRadius(1)  # m
-        self.robot.setMaxDiffCurv(0.4);  # 1/m^2
+        self.robot.setMinTurningRadius(0)  # m
+        self.robot.setMaxDiffCurv(10);  # 1/m^2
         path_planner = f2c.PP_PathPlanning()
 
         # Conection of paths with Dubin Curves
         # Done with continous survature to avoid instant changes of direction
 
-        dubins_cc = f2c.PP_DubinsCurvesCC();
+        dubins_cc = f2c.PP_DubinsCurves();
         self.path = path_planner.planPath(self.robot, swaths, dubins_cc);
 
         print(self.path)
@@ -174,12 +187,11 @@ class CoverageServer(Node):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
         else:
             self.cmd_vel_publisher.publish(twist);
-            self.curr_path += 1;
-            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
+            # self.curr_path += 1;
+            # self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
             print("Now going to: ", self.curr_path_pose)
-            print("Press [ENTER] to continue");
-            self.mov_type = Movement_Type.POSE;
-            input();
+            # print("Press [ENTER] to continue");
+            self.mov_type = Movement_Type.POINT;
             return            
 
         self.cmd_vel_publisher.publish(twist);
@@ -199,8 +211,6 @@ class CoverageServer(Node):
         angular_dist = angular_difference_radians(curr_angle, path.angle);
         print("Dists: ", linear_dist, " | ", angular_dist)
 
-        
-
         # Check if already there
         if (linear_dist < 0.8):
             self.cmd_vel_publisher.publish(twist);
@@ -210,8 +220,8 @@ class CoverageServer(Node):
             #print("Press [ENTER] to continue");
             #input();
             return;
-        elif (linear_dist < 2):
-            twist.linear.x = self.robot_lspeed * (linear_dist) * 0.2;
+        elif (linear_dist < 3):
+            twist.linear.x = self.robot_lspeed * (linear_dist) * 0.2 * 0.3;
         else:
             twist.linear.x = self.robot_lspeed;
         
@@ -239,17 +249,18 @@ class CoverageServer(Node):
 
         print("From position ", self.latest_pose.position, " to position ", pose.position)
 
-        m_angle = m(self.latest_pose.position, pose.position);
-        print("M: ", m_angle)
-        angular_dist = angular_difference_radians(curr_angle, m_angle);
-        print("Dists: ", linear_dist, " | ", angular_dist)
+        # m_angle = m(self.latest_pose.position, pose.position);
+        # print("M: ", m_angle)
+        # angular_dist = angular_difference_radians(curr_angle, m_angle);
+        # print("Dists: ", linear_dist, " | ", angular_dist)
         
         # Check if already there
         if (linear_dist < 0.8):
             self.cmd_vel_publisher.publish(twist);
+            self.curr_path += 1;
+            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
             print("Now going to: ", self.curr_path_pose)
             print("Press [ENTER] to continue");
-            input();
             self.mov_type = Movement_Type.ROT;
             return;
         elif (linear_dist < 2):
@@ -258,21 +269,49 @@ class CoverageServer(Node):
             twist.linear.x = self.robot_lspeed;
 
         
+        # # Rotate to angle
+        # if (abs(angular_dist) > math.pi/10):
+        #     twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
+        # elif (abs(angular_dist) > 0.005):
+        #     twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(10*angular_dist/math.pi);
+
+        print("Publishing", twist)
+        self.cmd_vel_publisher.publish(twist);
+
+    def drive_to_rot_m(self, pose: gmsg.Pose, path: f2c.PathState):
+        # Check if already there
+        twist = gmsg.Twist();
+        twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+        twist.linear = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+
+        # Current yaw
+        curr_angle = self.absolute_position.yaw;
+        print("Curr angle: ", curr_angle)
+
+        # Distance to angle
+        angular_dist = angular_difference_radians(curr_angle, m(self.latest_pose.position, pose.position));
+        print("Dists: ", angular_dist)
+        
         # Rotate to angle
         if (abs(angular_dist) > math.pi/6):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
-        elif (abs(angular_dist) > 0.005):
+        elif (abs(angular_dist) > 0.01):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
+        else:
+            self.cmd_vel_publisher.publish(twist);
+            print("Now going to: ", self.curr_path_pose)
+            print("Press [ENTER] to continue");
+            self.mov_type = Movement_Type.POINT;
+            return            
 
-        print("Publishing", twist)
         self.cmd_vel_publisher.publish(twist);
 
 def main(args=None):
     rclpy.init(args=args)
     coverage_server = CoverageServer()
-    
+
     coverage_server.generate_path();
-    
+
     rclpy.spin(coverage_server)
     coverage_server.destroy_node()
     rclpy.shutdown()

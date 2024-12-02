@@ -11,6 +11,7 @@ setup.py
 ../../build/coverage/coverage.egg-info/zip-safe
 coverage/__init__.py
 coverage/coverage_server.py
+coverage/fileread.py
 coverage/odometry_sensor.py
 resource/coverage
 test/test_copyright.py

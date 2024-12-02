@@ -1,0 +1,44 @@
+[0.758s] Invoking command in '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/src/coverage': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/build/coverage/install.log --single-version-externally-managed install_data
+[0.992s] running egg_info
+[0.992s] creating ../../../../build/coverage/coverage.egg-info
+[1.006s] writing ../../../../build/coverage/coverage.egg-info/PKG-INFO
+[1.007s] writing dependency_links to ../../../../build/coverage/coverage.egg-info/dependency_links.txt
+[1.007s] writing entry points to ../../../../build/coverage/coverage.egg-info/entry_points.txt
+[1.007s] writing requirements to ../../../../build/coverage/coverage.egg-info/requires.txt
+[1.007s] writing top-level names to ../../../../build/coverage/coverage.egg-info/top_level.txt
+[1.007s] writing manifest file '../../../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.038s] reading manifest file '../../../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.038s] adding license file 'LICENSE'
+[1.039s] writing manifest file '../../../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.039s] running build
+[1.039s] running build_py
+[1.039s] creating /home/apoire/Documents/Robotica/robotica/build/coverage/build
+[1.039s] creating /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib
+[1.039s] creating /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage
+[1.039s] copying coverage/__init__.py -> /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage
+[1.039s] copying coverage/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage
+[1.040s] copying coverage/fileread.py -> /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage
+[1.040s] copying coverage/coverage_server.py -> /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage
+[1.040s] running install
+[1.047s] running install_lib
+[1.062s] creating /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage
+[1.062s] copying /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage/__init__.py -> /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage
+[1.062s] copying /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage
+[1.063s] copying /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage/fileread.py -> /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage
+[1.063s] copying /home/apoire/Documents/Robotica/robotica/build/coverage/build/lib/coverage/coverage_server.py -> /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage
+[1.063s] byte-compiling /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage/__init__.py to __init__.cpython-312.pyc
+[1.064s] byte-compiling /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage/odometry_sensor.py to odometry_sensor.cpython-312.pyc
+[1.065s] byte-compiling /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage/fileread.py to fileread.cpython-312.pyc
+[1.065s] byte-compiling /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage/coverage_server.py to coverage_server.cpython-312.pyc
+[1.066s] running install_data
+[1.066s] creating /home/apoire/Documents/Robotica/robotica/install/coverage/share/ament_index
+[1.066s] creating /home/apoire/Documents/Robotica/robotica/install/coverage/share/ament_index/resource_index
+[1.066s] creating /home/apoire/Documents/Robotica/robotica/install/coverage/share/ament_index/resource_index/packages
+[1.066s] copying resource/coverage -> /home/apoire/Documents/Robotica/robotica/install/coverage/share/ament_index/resource_index/packages
+[1.066s] copying package.xml -> /home/apoire/Documents/Robotica/robotica/install/coverage/share/coverage
+[1.066s] running install_egg_info
+[1.083s] Copying ../../../../build/coverage/coverage.egg-info to /home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info
+[1.084s] running install_scripts
+[1.207s] Installing coverage_server script to /home/apoire/Documents/Robotica/robotica/install/coverage/lib/coverage
+[1.208s] writing list of installed files to '/home/apoire/Documents/Robotica/robotica/build/coverage/install.log'
+[1.239s] Invoked command in '/home/apoire/Documents/Robotica/robotica/agus/ros2_ws/src/coverage' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/install/coverage/lib/python3.12/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/build/coverage/install.log --single-version-externally-managed install_data
