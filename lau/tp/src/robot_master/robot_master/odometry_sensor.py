@@ -32,7 +32,7 @@ class OdometrySensor:
             maxlen=max_samples
         )  # Almacena las últimas N orientaciones (roll, pitch, yaw)
 
-    def procesar(self, msg: Odometry):
+    def procesar(self, msg):
         """
         Procesa un mensaje de Odometry y guarda los valores en la estructura.
         """
@@ -61,7 +61,7 @@ class OdometrySensor:
         """
         # Procesar posiciones
         if (
-            len(self.positions) < 3
+            len(self.positions) < self.max_samples
         ):  # No hay suficientes mediciones para calcular un promedio lógico
             return None
 

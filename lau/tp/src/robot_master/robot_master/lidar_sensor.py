@@ -74,7 +74,7 @@ class LidarSensor:
         #     f"Center: {self.index_start_center}-{self.index_end_center}"
         # )
 
-    def procesar(self, msg: LaserScan):
+    def procesar(self, msg):
         front_ranges = [
             r
             for r in msg.ranges[self.index_start_center : self.index_end_center]

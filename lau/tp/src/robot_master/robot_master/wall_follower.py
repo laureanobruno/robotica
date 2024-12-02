@@ -8,52 +8,59 @@ from .odometry_sensor import OdometrySensor, AbsolutePosition
 import math
 
 
-def angular_difference(angle1, angle2):
+def angular_difference(current, target):
     """
-    Calcula la diferencia mínima entre dos ángulos en grados.
-    Los ángulos se consideran en un rango de 0 a 360 grados.
+    Calcula la diferencia mínima entre dos ángulos en radianes.
+    Los ángulos se consideran en un rango de 0 a 2π.
 
-    :param angle1: Primer ángulo en grados (0 a 360).
-    :param angle2: Segundo ángulo en grados (0 a 360).
-    :return: Diferencia mínima en grados (siempre positiva).
+    :param angle1: Primer ángulo en radianes (0 a 2π).
+    :param angle2: Segundo ángulo en radianes (0 a 2π).
+    :return: Diferencia mínima en radianes (siempre positiva).
     """
-    # Normalizar los ángulos al rango [0, 360)
-    angle1 = angle1 % 360
-    angle2 = angle2 % 360
+    # Normalizar los ángulos al rango [0, 2π)
+    if current > 180:
+        current = current - 360
+
+    if target > 180:
+        target = target - 360
 
     # Calcular la diferencia absoluta
-    diff = abs(angle1 - angle2)
+    diff = target - current
 
-    # Asegurarse de que la diferencia mínima no exceda 180°
-    return min(diff, 360 - diff)
+    # Asegurarse de que la diferencia mínima no exceda π
+    return diff
 
 
 class WallFollowNode(Node):
 
     global FORWARD
-    global TURNING
+    global TURNING_LEFT
     global TURNED
-    global SEARCHING
-    global ADJUSTING_PARALLEL
+    global TAKING_DISTANCE
+    global ADJUSTING_TURNING_LEFT
     global INITIALIZING
     global REVERSING
+    global TURNING_RIGHT
+    global ADJUSTING_TURNING_RIGHT
     FORWARD = 0
-    TURNING = 1
-    TURNED = 2
-    SEARCHING = 3
-    ADJUSTING_PARALLEL = 4
+    TURNING_LEFT = 1
+    ADJUSTING_TURNING_LEFT = 2
+    TAKING_DISTANCE = 3
+    ADJUSTING_TURNING_RIGHT = 4
     INITIALIZING = 5
     REVERSING = 6
+    TURNING_RIGHT = 7
 
     global STATES_NAMES
     STATES_NAMES = {
         0: "FORWARD",
-        1: "TURNING",
-        2: "TURNED",
-        3: "SEARCHING",
-        4: "ADJUSTING_PARALLEL",
+        1: "TURNING_LEFT",
+        2: "ADJUSTING_TURNING_LEFT",
+        3: "TAKING_DISTANCE",
+        4: "ADJUSTING_TURNING_RIGHT",
         5: "INITIALIZING",
         6: "REVERSING",
+        7: "TURNING_RIGHT",
     }
 
     def __init__(self):
@@ -66,6 +73,7 @@ class WallFollowNode(Node):
         self.cant_odom = 0
         self.deg_error = 3
         self.desired_distance = 2
+        self.i = 0
 
         self.lidar_subscription = self.create_subscription(
             LaserScan, "/diff_drive/scan", self.front_lidar_callback, 10
@@ -82,17 +90,17 @@ class WallFollowNode(Node):
 
         # Parámetros
         self.linear_speed = 0.5  # Velocidad lineal (m/s)
-        self.angular_speed = 0.1  # Velocidad angular (rad/s)
+        self.angular_speed = 0.5  # Velocidad angular (rad/s)
 
         self.front_lidar = LidarSensor(
             640, 3, 0, 180, (150, 180), (60, 120), (0, 30)
         )  # Procesa los datos del lidar
         self.right_lidar = LidarSensor(
-            640, 2, 225, 315, (285, 315), (255, 285), (225, 255)
+            640, 2, 240, 300, (280, 300), (260, 280), (240, 260)
         )  # Procesa los datos del lidar derecho
         self.odometry_sensor = OdometrySensor()  # Procesa los datos del odometry
 
-        self.timer = self.create_timer(1, self.MEF)
+        self.timer = self.create_timer(0.1, self.MEF)
 
     def odometry_callback(self, msg: Odometry):
         self.lastest_odom = msg
@@ -127,59 +135,68 @@ class WallFollowNode(Node):
             right_wall_distances: WallDistances = self.right_lidar.procesar(
                 self.lastest_right_lidar
             )
-            absolute_position: AbsolutePosition = self.odometry_sensor.procesar(
+            absolute_position = self.odometry_sensor.procesar(
                 self.lastest_odom
             )
 
         if self.state == INITIALIZING:
             if (
                 self.lastest_lidar is not None
+                and self.lastest_right_lidar is not None
                 and self.cant_odom >= self.odometry_sensor.max_samples
             ):
-                self.state = SEARCHING
+                self.state = FORWARD
             pass
-        elif self.state == SEARCHING:
-            if wall_distances.closest_wall == RIGHT:
-                self.state = ADJUSTING_PARALLEL
-            elif wall_distances.closest_wall == FRONT:
-                if wall_distances.front < self.desired_distance:
-                    self.state = REVERSING
-                else:
-                    self.last_yaw = absolute_position.yaw
-                    self.state = TURNING
         elif self.state == REVERSING:
             if abs(wall_distances.front - self.desired_distance) <= 0.2:
                 self.last_yaw = absolute_position.yaw
-                self.state = TURNING
+                self.state = TURNING_LEFT
             else:
                 twist.linear.x = -0.1
         elif self.state == FORWARD:
-            twist.linear.x = self.linear_speed
             if wall_distances.closest_wall == FRONT:
                 if wall_distances.front < self.desired_distance:
                     self.state = REVERSING
                 else:
                     self.last_yaw = absolute_position.yaw
-                    self.state = TURNING
-        elif self.state == TURNING:
-            print(self.last_yaw, absolute_position.yaw)
-            if (
-                angular_difference(self.last_yaw, absolute_position.yaw)
-                >= 80 - self.deg_error
-                and angular_difference(self.last_yaw, absolute_position.yaw)
-                <= 80 + self.deg_error
-            ):
-                self.state = ADJUSTING_PARALLEL
+                    self.state = TURNING_LEFT
+            elif wall_distances.closest_wall == NONE and right_wall_distances.closest_wall == FRONT:
+                    self.angular_speed = self.linear_speed / right_wall_distances.front
+                    self.last_yaw = absolute_position.yaw
+                    self.last_right_lidar = right_wall_distances
+                    self.linear_speed = 0.4
+                    self.state = TURNING_RIGHT
+            else:
+                twist.linear.x = self.linear_speed
+        elif self.state == TURNING_LEFT:
+            if abs(abs(angular_difference(self.last_yaw, absolute_position.yaw)) - 90) <= self.deg_error:
+                self.state = ADJUSTING_TURNING_LEFT
             else:
                 twist.angular.z = self.angular_speed
-        elif self.state == ADJUSTING_PARALLEL:
-            print(right_wall_distances.right, right_wall_distances.left)
+        elif self.state == ADJUSTING_TURNING_LEFT:
             if abs(right_wall_distances.right - right_wall_distances.left) <= 0.01:
+                self.angular_speed = 0.5
+                self.linear_speed = 0.5
                 self.state = FORWARD  # El robot está paralelo a la pared
-            elif right_wall_distances.right > right_wall_distances.left:
-                twist.angular.z = 0.05
             else:
-                twist.angular.z = -0.05
+                if (right_wall_distances.right - right_wall_distances.left) > 0:
+                    twist.angular.z = 0.05
+                else:
+                    twist.angular.z = -0.05
+        elif self.state == TURNING_RIGHT:
+            if abs(abs(angular_difference(self.last_yaw, absolute_position.yaw)) - 90) <= self.deg_error:
+                self.state = ADJUSTING_TURNING_RIGHT
+            else:
+                twist.angular.z = -self.angular_speed
+                twist.linear.x = self.linear_speed
+        elif self.state == ADJUSTING_TURNING_RIGHT:
+            if self.i < 40:
+                self.i += 1
+            else:
+                self.i = 0
+                self.state = ADJUSTING_TURNING_LEFT
+            twist.linear.x = self.linear_speed
+                
 
         # Publicar el comando de velocidad
         self.cmd_vel_publisher.publish(twist)
