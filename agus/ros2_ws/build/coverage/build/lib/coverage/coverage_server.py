@@ -8,6 +8,39 @@ from enum              import Enum
 import geometry_msgs.msg as gmsg
 import nav_msgs.msg as navmsg
 import time
+import numpy as np
+from scipy.spatial.transform import Rotation as R
+from .odometry_sensor import *
+
+def angular_difference_radians(angle1, angle2):
+    """
+    Calcula la diferencia mínima entre dos ángulos en radianes.
+    Los ángulos se consideran en un rango de 0 a 2π.
+
+    :param angle1: Primer ángulo en radianes (0 a 2π).
+    :param angle2: Segundo ángulo en radianes (0 a 2π).
+    :return: Diferencia mínima en radianes (siempre positiva).
+    """
+    # Pasar de [0, 2*pi) a [-pi, pi]
+    if (angle1 > math.pi):
+        angle1 = angle1 - 2*math.pi
+
+    if (angle2 > math.pi):
+        angle2 = angle2 - 2*math.pi
+
+    # Calcular la diferencia absoluta
+    diff = angle2 - angle1
+
+    # Asegurarse de que la diferencia mínima no exceda π
+    return diff
+
+def dist(pa: gmsg.Vector3, pb: gmsg.Vector3):
+    dist = math.sqrt((pb.x - pa.x)**2 + (pb.y - pa.y)**2)
+    return dist
+
+def m(pa: gmsg.Vector3, pb: gmsg.Vector3):
+    m = math.atan2(pb.y - pa.y , pb.x - pa.x)
+    return m
 
 class Coverage_Type(Enum):
     BOUS = 0
@@ -19,6 +52,7 @@ class CoverageServer(Node):
     latest_pose: gmsg.Pose;
     curr_path = 0;
     curr_path_pose: gmsg.Pose;
+    absolute_position: AbsolutePosition;
 
     def __init__(self):
         super().__init__('coverage_server')
@@ -29,19 +63,22 @@ class CoverageServer(Node):
 
         # Generate robot
         self.robot = f2c.Robot(2.0, 5.0);
-        self.robot_lspeed = 1; #m/s
-        self.robot_aspeed = 0.2; #rad/s
+        self.robot_lspeed = 1.0; #m/s
+        self.robot_aspeed = 0.3; #rad/s
 
         # Listener de pose
         self.odometry_listener = self.create_subscription(navmsg.Odometry, "/diff_drive/odometry", self.odometry_callback, 10)
         self.latest_pose = None
+        self.odometry_sensor = OdometrySensor();
+
 
         # Publisher de Twist
         self.cmd_vel_publisher = self.create_publisher(gmsg.Twist, "/diff_drive/cmd_vel", 10);
 
     def odometry_callback(self, msg: navmsg.Odometry):
         self.latest_pose = msg.pose.pose;
-        print("Received pose ", self.latest_pose)
+        self.absolute_position = self.odometry_sensor.procesar(msg);
+        #print("Received pose ", self.latest_pose)
         self.drive_to_pose(self.curr_path_pose, self.path[self.curr_path]);
 
     def generate_path(self):
@@ -78,6 +115,8 @@ class CoverageServer(Node):
         dubins_cc = f2c.PP_DubinsCurvesCC();
         self.path = path_planner.planPath(self.robot, swaths, dubins_cc);
 
+        print(self.path)
+
         self.curr_path_pose = self.generate_pose(self.path[0]);
         # Visualise
         f2c.Visualizer.figure();
@@ -88,48 +127,48 @@ class CoverageServer(Node):
 
     def generate_pose(self, path: f2c.PathState):
         pose = gmsg.Pose()
-        position = gmsg.Point()
         pose.position.x = path.point.getX()
         pose.position.y = path.point.getY()
         pose.position.z = path.point.getZ()
 
         # Create quaternion using only pitch
-        pose.orientation = gmsg.Quaternion(x=0, y=math.cos(path.angle), z=0, w=math.sin(path.angle))
+        pose.orientation = gmsg.Quaternion(x=0, y=0, z=math.sin(path.angle), w=math.cos(path.angle))
 
         # Pose
         return pose
-
-
-    def follow_path(self):
-        # Wait for pose from robot 
-        while (self.latest_pose == None):
-           # print("Waiting for robot")
-            pass
-
-        # Iterate over path
-        total_paths = self.path.size();
-        for stretch in range(0, total_paths):
-            pose = self.generate_pose(self.path[stretch]);
-            print("Driving to pose: ", pose, "\n")
-            self.drive_to_pose(pose, self.path[stretch])
-            #print(pose, '\n');
     
     def drive_to_pose(self, pose: gmsg.Pose, path: f2c.PathState):
+        # Check if already there
         twist = gmsg.Twist();
-        curr_angle = math.asin(self.latest_pose.orientation.y)
+        twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+        twist.linear = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+
+        # Current yaw
+        # Convertir quaternion a ángulos de Euler
+        curr_angle = self.absolute_position.yaw;
+        print("Curr angle: ", curr_angle)
+        print("Angle: ", path.angle)
+
+        # Distance to point and angle
+        linear_dist = dist(self.latest_pose.position, pose.position);
+        angular_dist = angular_difference_radians(m(self.latest_pose.position, pose.position), curr_angle);
+        print("Distances: ", linear_dist, " | ", angular_dist)
+
+        # Check if already there
+        if (linear_dist < 0.3):
+            self.cmd_vel_publisher.publish(twist);
+            self.curr_path += 1;
+            self.curr_path_pose = self.path[self.curr_path];
+            print("Now going to: ", self.curr_path_pose)
         
         # Rotate to angle
-        if (curr_angle != path.angle):
-            twist.angular.y = math.copysign(self.robot_aspeed, path.angle - curr_angle);
-            self.cmd_vel_publisher.publish(twist);
-        else:
-            twist.angular.y = 0
-            twist.linear.x = self.robot_lspeed;
+        if (abs(angular_dist) > 0.001):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist); #*abs(math.sin(angular_dist + math.pi))
+            print("Z: ", twist.angular.z)
+        twist.linear.x = self.robot_lspeed;
 
-            
-        
-
-
+        print("Publishing", twist)
+        self.cmd_vel_publisher.publish(twist);
 
 def main(args=None):
     rclpy.init(args=args)

@@ -1,0 +1,12 @@
+Starting >>> ros_gz_example_description
+Starting >>> coverage
+Starting >>> ros_gz_example_application
+Finished <<< ros_gz_example_description [0.31s]
+Starting >>> ros_gz_example_gazebo
+Finished <<< ros_gz_example_application [0.33s]
+Finished <<< ros_gz_example_gazebo [0.12s]
+Starting >>> ros_gz_example_bringup
+Finished <<< ros_gz_example_bringup [0.09s]
+Finished <<< coverage [1.63s]
+
+Summary: 5 packages finished [1.84s]
