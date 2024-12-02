@@ -31,6 +31,9 @@ def angular_difference_radians(angle1, angle2):
     # Calcular la diferencia absoluta
     diff = angle2 - angle1
 
+    if (diff > math.pi):
+        diff = diff - 2*math.pi;
+
     # Asegurarse de que la diferencia mínima no exceda π
     return diff
 
@@ -74,9 +77,8 @@ class CoverageServer(Node):
 
         # Listener de pose
         self.odometry_listener = self.create_subscription(navmsg.Odometry, "/diff_drive/odometry", self.odometry_callback, 10)
-        self.latest_pose = None
         self.odometry_sensor = OdometrySensor();
-
+        self.mov_type = Movement_Type.POINT;
 
         # Publisher de Twist
         self.cmd_vel_publisher = self.create_publisher(gmsg.Twist, "/diff_drive/cmd_vel", 10);
@@ -93,7 +95,7 @@ class CoverageServer(Node):
         elif (self.mov_type == Movement_Type.POSE):
             self.drive_to_pose(self.curr_path_pose, self.path[self.curr_path]);
         else:
-            self.drive_to_pose(self.curr_path_pose, self.path[self.curr_path]);
+            print("ERROR: mov_type not defined");
 
     def generate_path(self):
         # Generate cells, add headland and calculate area
@@ -119,8 +121,8 @@ class CoverageServer(Node):
             print("Using Snake Order");
 
         # Set robot movement constraints
-        self.robot.setMinTurningRadius(2)  # m
-        self.robot.setMaxDiffCurv(0.1);  # 1/m^2
+        self.robot.setMinTurningRadius(1)  # m
+        self.robot.setMaxDiffCurv(0.4);  # 1/m^2
         path_planner = f2c.PP_PathPlanning()
 
         # Conection of paths with Dubin Curves
@@ -151,7 +153,78 @@ class CoverageServer(Node):
         # Pose
         return pose
     
+    def drive_to_rot(self, pose: gmsg.Pose, path: f2c.PathState):
+        # Check if already there
+        twist = gmsg.Twist();
+        twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+        twist.linear = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+
+        # Current yaw
+        curr_angle = self.absolute_position.yaw;
+        print("Curr angle: ", curr_angle)
+
+        # Distance to angle
+        angular_dist = angular_difference_radians(curr_angle, path.angle);
+        print("Dists: ", angular_dist)
+        
+        # Rotate to angle
+        if (abs(angular_dist) > math.pi/6):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
+        elif (abs(angular_dist) > 0.001):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
+        else:
+            self.cmd_vel_publisher.publish(twist);
+            self.curr_path += 1;
+            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
+            print("Now going to: ", self.curr_path_pose)
+            print("Press [ENTER] to continue");
+            self.mov_type = Movement_Type.POSE;
+            input();
+            return
+            
+
+        self.cmd_vel_publisher.publish(twist);
+
     def drive_to_pose(self, pose: gmsg.Pose, path: f2c.PathState):
+        # Check if already there
+        twist = gmsg.Twist();
+        twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+        twist.linear = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
+
+        # Current yaw
+        curr_angle = self.absolute_position.yaw;
+        #print("Curr angle: ", curr_angle)
+
+        # Distance to point and angle
+        linear_dist = dist(self.latest_pose.position, pose.position);
+        angular_dist = angular_difference_radians(curr_angle, path.angle);
+        print("Dists: ", linear_dist, " | ", angular_dist)
+
+        # Check if already there
+        if (linear_dist < 0.3):
+            self.cmd_vel_publisher.publish(twist);
+            self.curr_path += 1;
+            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
+            print("Now going to: ", self.curr_path_pose)
+            #print("Press [ENTER] to continue");
+            #input();
+            return;
+        elif (linear_dist < 1):
+            twist.linear.x = self.robot_lspeed * (linear_dist) * 0.2;
+        else:
+            twist.linear.x = self.robot_lspeed;
+
+        
+        # Rotate to angle
+        if (abs(angular_dist) > math.pi/6):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
+        elif (abs(angular_dist) > 0.001):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(8*angular_dist/math.pi);
+
+        # print("Publishing", twist)
+        self.cmd_vel_publisher.publish(twist);
+    
+    def drive_to_point(self, pose: gmsg.Pose, path: f2c.PathState):
         # Check if already there
         twist = gmsg.Twist();
         twist.angular = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
@@ -163,17 +236,21 @@ class CoverageServer(Node):
 
         # Distance to point and angle
         linear_dist = dist(self.latest_pose.position, pose.position);
-        angular_dist = angular_difference_radians(curr_angle, m(self.latest_pose.position, pose.position));
-        print("Dists: ", linear_dist, " | ", angular_dist)
 
+        print("From position ", self.latest_pose.position, " to position ", pose.position)
+
+        m_angle = m(self.latest_pose.position, pose.position);
+        print("M: ", m_angle)
+        angular_dist = angular_difference_radians(curr_angle, m_angle);
+        print("Dists: ", linear_dist, " | ", angular_dist)
+        
         # Check if already there
-        if (linear_dist < 0.1):
+        if (linear_dist < 0.3):
             self.cmd_vel_publisher.publish(twist);
-            self.curr_path += 1;
-            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
             print("Now going to: ", self.curr_path_pose)
             print("Press [ENTER] to continue");
             input();
+            self.mov_type = Movement_Type.ROT;
             return;
         twist.linear.x = self.robot_lspeed;
 
