@@ -49,21 +49,21 @@ class OdometrySensor:
         roll, pitch, yaw = r.as_euler("xyz", degrees=False)
 
         # Guardar las mediciones en las estructuras
-        self.positions.append((x, y, z))
-        self.orientations.append((roll, pitch, yaw))
+        #self.positions.append((x, y, z))
+        #self.orientations.append((roll, pitch, yaw))
 
         # Calcular resultados lógicos
-        return self._calcular_promedio()
+        return AbsolutePosition(x, y, z, roll, pitch, yaw)
 
     def _calcular_promedio(self):
         """
         Calcula el promedio de las posiciones y orientaciones, descartando los valores extremos.
         """
         # Procesar posiciones
-        # if (
-            # len(self.positions) < 3
-        # ):  # No hay suficientes mediciones para calcular un promedio lógico
-        #     return None
+        if (
+            len(self.positions) < 3
+        ):  # No hay suficientes mediciones para calcular un promedio lógico
+            return None
 
         positions_array = np.array(self.positions)
         x = self._promedio_logico(positions_array[:, 0])

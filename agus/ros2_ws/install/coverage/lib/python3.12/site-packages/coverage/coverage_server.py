@@ -105,8 +105,8 @@ class CoverageServer(Node):
             print("Using Snake Order");
 
         # Set robot movement constraints
-        self.robot.setMinTurningRadius(3)  # m
-        self.robot.setMaxDiffCurv(0.2);  # 1/m^2
+        self.robot.setMinTurningRadius(2)  # m
+        self.robot.setMaxDiffCurv(0.1);  # 1/m^2
         path_planner = f2c.PP_PathPlanning()
 
         # Conection of paths with Dubin Curves
@@ -144,28 +144,34 @@ class CoverageServer(Node):
         twist.linear = gmsg.Vector3(x=0.0, y=0.0, z=0.0);
 
         # Current yaw
-        # Convertir quaternion a ángulos de Euler
         curr_angle = self.absolute_position.yaw;
         print("Curr angle: ", curr_angle)
-        print("Angle: ", path.angle)
 
         # Distance to point and angle
         linear_dist = dist(self.latest_pose.position, pose.position);
-        angular_dist = angular_difference_radians(m(self.latest_pose.position, pose.position), curr_angle);
-        print("Distances: ", linear_dist, " | ", angular_dist)
+        angular_dist = angular_difference_radians(curr_angle, m(self.latest_pose.position, pose.position));
+        print("Dists: ", linear_dist, " | ", angular_dist)
 
         # Check if already there
-        if (linear_dist < 0.3):
+        if (linear_dist < 0.1):
             self.cmd_vel_publisher.publish(twist);
             self.curr_path += 1;
-            self.curr_path_pose = self.path[self.curr_path];
+            self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
             print("Now going to: ", self.curr_path_pose)
+            print("Press [ENTER] to continue");
+            input();
+            return;
+        elif (linear_dist < 1):
+            twist.linear.x = self.robot_lspeed*linear_dist;
+        else:
+            twist.linear.x = self.robot_lspeed;
+
         
         # Rotate to angle
-        if (abs(angular_dist) > 0.001):
-            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist); #*abs(math.sin(angular_dist + math.pi))
-            print("Z: ", twist.angular.z)
-        twist.linear.x = self.robot_lspeed;
+        if (abs(angular_dist) > math.pi/6):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
+        elif (abs(angular_dist) > 0.001):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
 
         print("Publishing", twist)
         self.cmd_vel_publisher.publish(twist);
