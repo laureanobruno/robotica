@@ -70,7 +70,7 @@
 
     <model name="diff_drive">
       <self_collide>true</self_collide>
-      <pose>0 0 0.35 0 0 0</pose>
+      <pose>-2.1 1.8 0.35 0 0 0</pose>
       <include merge="true">
         <uri>package://ros_gz_example_description/models/diff_drive</uri>
       </include>
@@ -100,19 +100,45 @@
     <!-- Add walls -->
     <model name="wall_north">
       <static>true</static>
-      <pose>0 5 1 0 0 0</pose>
+      <pose>-2.5 5 1 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>10 0.1 2</size>
+              <size>5 0.1 2</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>10 0.1 2</size>
+              <size>5 0.1 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_north_two">
+      <static>true</static>
+      <pose>2.5 10 1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5 0.1 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5 0.1 2</size>
             </box>
           </geometry>
           <material>
@@ -126,19 +152,45 @@
 
     <model name="wall_south">
       <static>true</static>
-      <pose>0 -5 1 0 0 0</pose>
+      <pose>-2.5 0 1 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>10 0.1 2</size>
+              <size>5 0.1 2</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>10 0.1 2</size>
+              <size>5 0.1 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_south_two">
+      <static>true</static>
+      <pose>2.5 -5 1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5 0.1 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5 0.1 2</size>
             </box>
           </geometry>
           <material>
@@ -152,19 +204,19 @@
 
     <model name="wall_east">
       <static>true</static>
-      <pose>5 0 1 0 0 0</pose>
+      <pose>5 2.5 1 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.1 10 2</size>
+              <size>0.1 15 2</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.1 10 2</size>
+              <size>0.1 15 2</size>
             </box>
           </geometry>
           <material>
@@ -178,19 +230,70 @@
 
     <model name="wall_west">
       <static>true</static>
-      <pose>-5 0 1 0 0 0</pose>
+      <pose>-5 2.5 1 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.1 10 2</size>
+              <size>0.1 5 2</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.1 10 2</size>
+              <size>0.1 5 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_west_two">
+      <static>true</static>
+      <pose>0 -2.5 1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 5 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 5 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <model name="wall_west_three">
+      <static>true</static>
+      <pose>0 7.5 1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 5 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 5 2</size>
             </box>
           </geometry>
           <material>
