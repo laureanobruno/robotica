@@ -180,8 +180,7 @@ class CoverageServer(Node):
             print("Press [ENTER] to continue");
             self.mov_type = Movement_Type.POSE;
             input();
-            return
-            
+            return            
 
         self.cmd_vel_publisher.publish(twist);
 
@@ -200,8 +199,10 @@ class CoverageServer(Node):
         angular_dist = angular_difference_radians(curr_angle, path.angle);
         print("Dists: ", linear_dist, " | ", angular_dist)
 
+        
+
         # Check if already there
-        if (linear_dist < 0.3):
+        if (linear_dist < 0.8):
             self.cmd_vel_publisher.publish(twist);
             self.curr_path += 1;
             self.curr_path_pose = self.generate_pose(self.path[self.curr_path]);
@@ -209,17 +210,16 @@ class CoverageServer(Node):
             #print("Press [ENTER] to continue");
             #input();
             return;
-        elif (linear_dist < 1):
+        elif (linear_dist < 2):
             twist.linear.x = self.robot_lspeed * (linear_dist) * 0.2;
         else:
             twist.linear.x = self.robot_lspeed;
-
         
         # Rotate to angle
         if (abs(angular_dist) > math.pi/6):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
-        elif (abs(angular_dist) > 0.001):
-            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(8*angular_dist/math.pi);
+        elif (abs(angular_dist) > 0.005):
+            twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
 
         # print("Publishing", twist)
         self.cmd_vel_publisher.publish(twist);
@@ -245,20 +245,23 @@ class CoverageServer(Node):
         print("Dists: ", linear_dist, " | ", angular_dist)
         
         # Check if already there
-        if (linear_dist < 0.3):
+        if (linear_dist < 0.8):
             self.cmd_vel_publisher.publish(twist);
             print("Now going to: ", self.curr_path_pose)
             print("Press [ENTER] to continue");
             input();
             self.mov_type = Movement_Type.ROT;
             return;
-        twist.linear.x = self.robot_lspeed;
+        elif (linear_dist < 2):
+            twist.linear.x = self.robot_lspeed * (linear_dist) * 0.2;
+        else:
+            twist.linear.x = self.robot_lspeed;
 
         
         # Rotate to angle
         if (abs(angular_dist) > math.pi/6):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)
-        elif (abs(angular_dist) > 0.001):
+        elif (abs(angular_dist) > 0.005):
             twist.angular.z = math.copysign(self.robot_aspeed, angular_dist)*abs(6*angular_dist/math.pi);
 
         print("Publishing", twist)
