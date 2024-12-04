@@ -36,7 +36,6 @@ class WallFollowNode(Node):
     global FORWARD
     global TURNING_LEFT
     global TURNED
-    global TAKING_DISTANCE
     global ADJUSTING_PARALLEL
     global INITIALIZING
     global REVERSING
@@ -47,26 +46,24 @@ class WallFollowNode(Node):
     FORWARD = 0
     TURNING_LEFT = 1
     ADJUSTING_PARALLEL = 2
-    TAKING_DISTANCE = 3
+    GETTING_CLOSER = 3
     ADJUSTING_TURNING_RIGHT = 4
     INITIALIZING = 5
     REVERSING = 6
     TURNING_RIGHT = 7
     FINISHED = 8
-    GETTING_CLOSER = 9
 
     global STATES_NAMES
     STATES_NAMES = {
         0: "FORWARD",
         1: "TURNING_LEFT",
         2: "ADJUSTING_PARALLEL",
-        3: "TAKING_DISTANCE",
+        3: "GETTING_CLOSER",
         4: "ADJUSTING_TURNING_RIGHT",
         5: "INITIALIZING",
         6: "REVERSING",
         7: "TURNING_RIGHT",
         8: "FINISHED",
-        9: "GETTING_CLOSER",
     }
 
     def __init__(self):
@@ -127,16 +124,14 @@ class WallFollowNode(Node):
 
     @state.setter
     def state(self, new_state):
-        # if self._state != new_state:  # Solo log si hay un cambio de estado
-        #     self.get_logger().info(
-        #         f"State changed from {STATES_NAMES[self._state]} to {STATES_NAMES[new_state]}"
-        #     )
+        if self._state != new_state:  # Solo log si hay un cambio de estado
+            self.get_logger().info(
+                f"State changed from {STATES_NAMES[self._state]} to {STATES_NAMES[new_state]}"
+            )
         self._state = new_state  # Asignar directamente a la variable privada
 
     def MEF(self):
         twist = Twist()
-
-        # print(f"State: {STATES_NAMES[self.state]}")
 
         if self.state != INITIALIZING:
             wall_distances: WallDistances = self.front_lidar.procesar(
