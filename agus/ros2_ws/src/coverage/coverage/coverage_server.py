@@ -170,7 +170,7 @@ class CoverageServer(Node):
             self.field = fieldFromPoints(points);
             self.generate_path();
             self.run = 1;
-            print("Start the remix")
+            print("Press [ENTER] to begin the coverage")
 
     def odometry_callback(self, msg: navmsg.Odometry):
         if (self.run == 1):
@@ -198,21 +198,10 @@ class CoverageServer(Node):
         print("The complete area is ", cells.area(),
             ", and the area without headlands is ", no_hl.area());
 
-        f2c.Visualizer.figure();
-        f2c.Visualizer.plot(self.field);
-        f2c.Visualizer.plot(no_hl);
-        f2c.Visualizer.save("Field.png");
-
         # Generate swaths by vrute force
         bf = f2c.SG_BruteForce();
         # swaths = bf.generateSwaths(math.pi/4, self.robot.getCovWidth(), no_hl.getGeometry(0));
         swaths = bf.generateSwaths(math.pi, self.robot.getCovWidth(), no_hl.getGeometry(0));
-
-        f2c.Visualizer.figure();
-        f2c.Visualizer.plot(self.field);
-        f2c.Visualizer.plot(no_hl);
-        f2c.Visualizer.plot(swaths);
-        f2c.Visualizer.save("Swaths.png");
 
         if (self.coverage_type == Coverage_Type.BOUS):
             # Order swaths using the Boustrophedon Order
@@ -239,13 +228,6 @@ class CoverageServer(Node):
 
         self.curr_path_pose = self.generate_pose(self.path[0]);
         # Visualise
-
-        f2c.Visualizer.figure();
-        f2c.Visualizer.plot(self.field);
-        f2c.Visualizer.plot(no_hl);
-        f2c.Visualizer.plot(self.path);
-        f2c.Visualizer.plot(swaths);
-        f2c.Visualizer.save("Paths.png");
 
         f2c.Visualizer.figure();
         f2c.Visualizer.plot(self.field);
