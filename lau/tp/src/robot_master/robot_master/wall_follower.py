@@ -219,7 +219,8 @@ class WallFollowNode(Node):
         elif self.state == FINISHED:
             twist.linear.x = 0.0
             twist.angular.z = 0.0   
-            self.mapped_publisher.publish(Int32(data=1))        
+            self.mapped_publisher.publish(Int32(data=1))
+            self.cmd_vel_publisher.publish(twist)        
             self.destroy_node()
 
         # Publicar el comando de velocidad

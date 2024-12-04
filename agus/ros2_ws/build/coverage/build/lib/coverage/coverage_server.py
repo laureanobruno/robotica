@@ -47,7 +47,7 @@ def m(pa: gmsg.Vector3, pb: gmsg.Vector3):
 
 def readFromFile():
     try:
-        f = open("map.txt", "r");
+        f = open("/home/apoire/Documents/Robotica/robotica/lau/tp/map.txt", "r");
         pairs = []
         for line in f:
             # Strip any leading/trailing whitespaces and split by space (or any other delimiter)
