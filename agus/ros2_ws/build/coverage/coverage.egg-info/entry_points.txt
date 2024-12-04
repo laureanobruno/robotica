@@ -1,2 +1,0 @@
-[console_scripts]
-coverage_server = coverage.coverage_server:main
