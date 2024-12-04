@@ -1,23 +1,24 @@
 # Robotica
 
-## Carpeta Lau
+## Compilación
+Si se está usando Gazebo versión Harmonic:
+`export GZ_VERSION=harmonic`
 
-Ni bien se clona el repo, dentro de la carpeta tp correr
+Desde carpeta ROSberta:
+```
+source /opt/ros/{ROS-DISTRO}/setup.bash
+colcon build
+source install/setup.bash
+```
 
-`colcon build`
+## Ejecución
+Nodos:
+```
+ros2 run robot_master wall_follower
+ros2 run coverage coverage_server
+```
 
-### Para correr la simulación, correr
-
-`cd tp`
-
-`./init.bash` # Esto solo la primera vez que se abre la terminal
-
-`./sim.bash`
-
-### Para correr el nodo:
-
-`cd tp`
-
-`./init.bash` # Esto solo la primera vez que se abre la terminal
-
-`./node.bash`
+Simulación en Gazebo:
+```
+ros2 launch ros_gz_example_bringup diff_drive.launch.py
+```
