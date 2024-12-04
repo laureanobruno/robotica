@@ -14,7 +14,7 @@ class MapWriter:
 
         print(f'Archivo "{self.file_name}" inicializado.')
 
-    def add_coordinates(self, x, y):
+    def add_coordinates(self, x, y, yaw):
         """
         Agrega un par de coordenadas al archivo.
         :param x: Coordenada x (float).
@@ -24,10 +24,11 @@ class MapWriter:
             # Validar que los valores sean flotantes
             x = float(x)
             y = float(y)
+            yaw = float(yaw)
 
             # Escribir las coordenadas en el archivo
             with open(self.file_name, 'a') as file:
-                file.write(f"{x} {y}\n")
+                file.write(f"{x} {y} {yaw}\n")
 
             self.coordinates.append((x, y))
 

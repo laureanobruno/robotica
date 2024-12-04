@@ -156,7 +156,7 @@ class WallFollowNode(Node):
         elif self.state == REVERSING:
             if abs(wall_distances.front - self.desired_distance) <= 0.2:
                 self.state = TURNING_LEFT
-                self.map_writer.add_coordinates(absolute_position.x, absolute_position.y)
+                self.map_writer.add_coordinates(absolute_position.x, absolute_position.y, absolute_position.yaw)
                 self.last_yaw = absolute_position.yaw
             else:
                 twist.linear.x = -0.2
@@ -171,7 +171,7 @@ class WallFollowNode(Node):
                     self.state = GETTING_CLOSER
                 else:
                     self.last_yaw = absolute_position.yaw
-                    self.map_writer.add_coordinates(absolute_position.x, absolute_position.y)
+                    self.map_writer.add_coordinates(absolute_position.x, absolute_position.y, absolute_position.yaw)
                     self.state = TURNING_LEFT
             elif wall_distances.closest_wall == NONE and right_wall_distances.closest_wall == FRONT:
                     self.angular_speed = self.linear_speed / right_wall_distances.front
@@ -205,7 +205,7 @@ class WallFollowNode(Node):
                 self.state = ADJUSTING_TURNING_RIGHT
             else:
                 if (abs(abs(angular_difference(self.last_yaw, absolute_position.yaw)) - 45) <= self.deg_error) and not self.coordinate_saved:
-                    self.map_writer.add_coordinates(absolute_position.x, absolute_position.y) # Se agregan en el medio del giro
+                    self.map_writer.add_coordinates(absolute_position.x, absolute_position.y, absolute_position.yaw) # Se agregan en el medio del giro
                     self.coordinate_saved = True
                 twist.angular.z = -self.angular_speed
                 twist.linear.x = self.linear_speed
