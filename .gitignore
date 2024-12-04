@@ -1,6 +1,8 @@
-lau/tp/build
-lau/tp/install
-lau/tp/log
-agus/ros2_ws/build
-agus/ros2_ws/install
-agus/ros2_ws/log
+ROSberta/build
+ROSberta/install
+ROSberta/log
+map.txt
+build
+install
+log
+.vscode
