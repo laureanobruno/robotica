@@ -1,0 +1,19 @@
+running egg_info
+writing ../../build/coverage/coverage.egg-info/PKG-INFO
+writing dependency_links to ../../build/coverage/coverage.egg-info/dependency_links.txt
+writing entry points to ../../build/coverage/coverage.egg-info/entry_points.txt
+writing requirements to ../../build/coverage/coverage.egg-info/requires.txt
+writing top-level names to ../../build/coverage/coverage.egg-info/top_level.txt
+reading manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+running build
+running install
+running install_data
+copying package.xml -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/share/coverage
+running install_egg_info
+removing '/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/coverage/coverage.egg-info to /home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info
+running install_scripts
+Installing coverage_server script to /home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/coverage
+writing list of installed files to '/home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/install.log'

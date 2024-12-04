@@ -1,0 +1,47 @@
+[1.230s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/robot_master': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_master build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log --single-version-externally-managed install_data
+[1.557s] running egg_info
+[1.557s] creating ../../build/robot_master/robot_master.egg-info
+[1.582s] writing ../../build/robot_master/robot_master.egg-info/PKG-INFO
+[1.583s] writing dependency_links to ../../build/robot_master/robot_master.egg-info/dependency_links.txt
+[1.583s] writing entry points to ../../build/robot_master/robot_master.egg-info/entry_points.txt
+[1.583s] writing requirements to ../../build/robot_master/robot_master.egg-info/requires.txt
+[1.583s] writing top-level names to ../../build/robot_master/robot_master.egg-info/top_level.txt
+[1.583s] writing manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+[1.636s] reading manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+[1.636s] adding license file 'LICENSE'
+[1.636s] writing manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+[1.637s] running build
+[1.637s] running build_py
+[1.637s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build
+[1.637s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib
+[1.637s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.637s] copying robot_master/__init__.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.637s] copying robot_master/lidar_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.637s] copying robot_master/wall_follower.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.638s] copying robot_master/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.638s] copying robot_master/map_writer.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+[1.638s] running install
+[1.645s] running install_lib
+[1.671s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.671s] copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/__init__.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.671s] copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/lidar_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.671s] copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/wall_follower.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.671s] copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.672s] copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/map_writer.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+[1.672s] byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/__init__.py to __init__.cpython-312.pyc
+[1.672s] byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/lidar_sensor.py to lidar_sensor.cpython-312.pyc
+[1.674s] byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/wall_follower.py to wall_follower.cpython-312.pyc
+[1.675s] byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/odometry_sensor.py to odometry_sensor.cpython-312.pyc
+[1.676s] byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/map_writer.py to map_writer.cpython-312.pyc
+[1.676s] running install_data
+[1.676s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index
+[1.676s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index
+[1.677s] creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index/packages
+[1.677s] copying resource/robot_master -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index/packages
+[1.677s] copying package.xml -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/robot_master
+[1.677s] running install_egg_info
+[1.705s] Copying ../../build/robot_master/robot_master.egg-info to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master-0.0.0-py3.12.egg-info
+[1.706s] running install_scripts
+[1.880s] Installing wall_follower script to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/robot_master
+[1.881s] writing list of installed files to '/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log'
+[1.919s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/robot_master' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_master build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log --single-version-externally-managed install_data

@@ -1,0 +1,20 @@
+[1.245s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/coverage': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/install.log --single-version-externally-managed install_data
+[1.567s] running egg_info
+[1.594s] writing ../../build/coverage/coverage.egg-info/PKG-INFO
+[1.594s] writing dependency_links to ../../build/coverage/coverage.egg-info/dependency_links.txt
+[1.594s] writing entry points to ../../build/coverage/coverage.egg-info/entry_points.txt
+[1.594s] writing requirements to ../../build/coverage/coverage.egg-info/requires.txt
+[1.595s] writing top-level names to ../../build/coverage/coverage.egg-info/top_level.txt
+[1.621s] reading manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.621s] adding license file 'LICENSE'
+[1.622s] writing manifest file '../../build/coverage/coverage.egg-info/SOURCES.txt'
+[1.622s] running build
+[1.623s] running install
+[1.630s] running install_data
+[1.630s] running install_egg_info
+[1.683s] removing '/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info' (and everything under it)
+[1.684s] Copying ../../build/coverage/coverage.egg-info to /home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages/coverage-0.0.0-py3.12.egg-info
+[1.685s] running install_scripts
+[1.855s] Installing coverage_server script to /home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/coverage
+[1.855s] writing list of installed files to '/home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/install.log'
+[1.883s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/coverage' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/coverage build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/coverage/install.log --single-version-externally-managed install_data

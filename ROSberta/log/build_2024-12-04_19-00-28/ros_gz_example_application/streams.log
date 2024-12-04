@@ -1,0 +1,39 @@
+[0.502s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/apoire/Documents/Robotica/robotica/ROSberta/src/ros_gz_project_template/ros_gz_example_application -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX=/home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application
+[0.569s] -- The C compiler identification is GNU 13.2.0
+[0.637s] -- The CXX compiler identification is GNU 13.2.0
+[0.657s] -- Detecting C compiler ABI info
+[0.766s] -- Detecting C compiler ABI info - done
+[0.779s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.779s] -- Detecting C compile features
+[0.780s] -- Detecting C compile features - done
+[0.791s] -- Detecting CXX compiler ABI info
+[0.913s] -- Detecting CXX compiler ABI info - done
+[0.925s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.925s] -- Detecting CXX compile features
+[0.925s] -- Detecting CXX compile features - done
+[0.931s] -- Found ament_cmake: 2.5.2 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.124s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.379s] -- Configuring done (0.9s)
+[1.383s] -- Generating done (0.0s)
+[1.385s] -- Build files have been written to: /home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application
+[1.390s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/apoire/Documents/Robotica/robotica/ROSberta/src/ros_gz_project_template/ros_gz_example_application -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX=/home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application
+[1.391s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application -- -j12 -l12
+[1.444s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application -- -j12 -l12
+[1.445s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application
+[1.455s] -- Install configuration: ""
+[1.456s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ament_index/resource_index/package_run_dependencies/ros_gz_example_application
+[1.456s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ament_index/resource_index/parent_prefix_path/ros_gz_example_application
+[1.456s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/environment/ament_prefix_path.sh
+[1.457s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/environment/ament_prefix_path.dsv
+[1.457s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/environment/path.sh
+[1.457s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/environment/path.dsv
+[1.457s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/local_setup.bash
+[1.457s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/local_setup.sh
+[1.458s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/local_setup.zsh
+[1.458s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/local_setup.dsv
+[1.458s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/package.dsv
+[1.458s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ament_index/resource_index/packages/ros_gz_example_application
+[1.459s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/cmake/ros_gz_example_applicationConfig.cmake
+[1.459s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/cmake/ros_gz_example_applicationConfig-version.cmake
+[1.459s] -- Installing: /home/apoire/Documents/Robotica/robotica/ROSberta/install/ros_gz_example_application/share/ros_gz_example_application/package.xml
+[1.461s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master:/home/apoire/Documents/Robotica/robotica/ROSberta/install/coverage:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/apoire/Documents/Robotica/robotica/ROSberta/build/ros_gz_example_application

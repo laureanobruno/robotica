@@ -1,0 +1,45 @@
+running egg_info
+creating ../../build/robot_master/robot_master.egg-info
+writing ../../build/robot_master/robot_master.egg-info/PKG-INFO
+writing dependency_links to ../../build/robot_master/robot_master.egg-info/dependency_links.txt
+writing entry points to ../../build/robot_master/robot_master.egg-info/entry_points.txt
+writing requirements to ../../build/robot_master/robot_master.egg-info/requires.txt
+writing top-level names to ../../build/robot_master/robot_master.egg-info/top_level.txt
+writing manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+reading manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+copying robot_master/__init__.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+copying robot_master/lidar_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+copying robot_master/wall_follower.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+copying robot_master/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+copying robot_master/map_writer.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master
+running install
+running install_lib
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/__init__.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/lidar_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/wall_follower.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/odometry_sensor.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+copying /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build/lib/robot_master/map_writer.py -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master
+byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/lidar_sensor.py to lidar_sensor.cpython-312.pyc
+byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/wall_follower.py to wall_follower.cpython-312.pyc
+byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/odometry_sensor.py to odometry_sensor.cpython-312.pyc
+byte-compiling /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master/map_writer.py to map_writer.cpython-312.pyc
+running install_data
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index
+creating /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index/packages
+copying resource/robot_master -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/ament_index/resource_index/packages
+copying package.xml -> /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/share/robot_master
+running install_egg_info
+Copying ../../build/robot_master/robot_master.egg-info to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master-0.0.0-py3.12.egg-info
+running install_scripts
+Installing wall_follower script to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/robot_master
+writing list of installed files to '/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log'

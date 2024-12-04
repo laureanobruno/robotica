@@ -1,0 +1,22 @@
+[1.211s] Invoking command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/robot_master': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_master build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log --single-version-externally-managed install_data
+[1.525s] running egg_info
+[1.550s] writing ../../build/robot_master/robot_master.egg-info/PKG-INFO
+[1.550s] writing dependency_links to ../../build/robot_master/robot_master.egg-info/dependency_links.txt
+[1.551s] writing entry points to ../../build/robot_master/robot_master.egg-info/entry_points.txt
+[1.551s] writing requirements to ../../build/robot_master/robot_master.egg-info/requires.txt
+[1.551s] writing top-level names to ../../build/robot_master/robot_master.egg-info/top_level.txt
+[1.602s] reading manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+[1.602s] adding license file 'LICENSE'
+[1.603s] writing manifest file '../../build/robot_master/robot_master.egg-info/SOURCES.txt'
+[1.603s] running build
+[1.603s] running build_py
+[1.603s] running install
+[1.610s] running install_lib
+[1.637s] running install_data
+[1.637s] running install_egg_info
+[1.664s] removing '/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master-0.0.0-py3.12.egg-info' (and everything under it)
+[1.664s] Copying ../../build/robot_master/robot_master.egg-info to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages/robot_master-0.0.0-py3.12.egg-info
+[1.665s] running install_scripts
+[1.834s] Installing wall_follower script to /home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/robot_master
+[1.834s] writing list of installed files to '/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log'
+[1.864s] Invoked command in '/home/apoire/Documents/Robotica/robotica/ROSberta/src/robot_master' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/apoire/Documents/Robotica/robotica/ROSberta/install/robot_master/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_master build --build-base /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/build install --record /home/apoire/Documents/Robotica/robotica/ROSberta/build/robot_master/install.log --single-version-externally-managed install_data
